@@ -1,1 +1,1 @@
-write-host "Hallo maan !!"
+write-host "Hallo jupiter !!"
