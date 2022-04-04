@@ -33,20 +33,21 @@ Begin{
     #-- determine script location and name
     $scriptPath=(get-item (Split-Path -Path $MyInvocation.MyCommand.Definition)).FullName
     $scriptname=(Split-Path -Leaf $MyInvocation.mycommand.path).Split(".")[0]
+    $scriptGitServer = "https://raw.githubusercontent.com/"
+    $scriptGitRepository = "brtlvrs/demonstration/"
+    $scriptBranch = "template/"
+    $scriptrootURI = $scriptGitServer+$scriptGitRepository+$scriptBranch
 
-    #-- load functions
-    if (Test-Path -IsValid -Path($scriptpath+"\functions\functions.psm1") ) {
-        write-host "Loading functions" -ForegroundColor cyan
-        import-module ($scriptpath+"\functions\functions.psm1") -DisableNameChecking -Force:$true #-- the module scans the functions subfolder and loads them as functions
-    } else {
-        write-verbose "functions module not found."
-        exit-script 10
+    if ((Invoke-WebRequest ($scriptrootURI+"parameters.ps1")).StatusCode -ne 200 ) {
+        throw "Failed to find parameter.ps1 file on git repo."
     }
-    
-    #-- init logging, $log is the log object expected by cmdlets in log-functions.ps1 
-    write-host "Initializing logging" -ForegroundColor cyan
-    $log=New-LogObject -name $scriptname
-    write-logEvent -eventid 11 -message "Script initializing done."
+
+    $P = (Invoke-WebRequest ($scriptrootURI+"parameters.ps1")).content
+
+    write-host $P.name
+    #-- load functions
+
+
 }
 
 END{
