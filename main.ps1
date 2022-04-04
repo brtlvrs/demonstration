@@ -38,14 +38,27 @@ Begin{
     $scriptBranch = "template/"
     $scriptrootURI = $scriptGitServer+$scriptGitRepository+$scriptBranch
 
-    if ((Invoke-WebRequest ($scriptrootURI+"parameters.ps1")).StatusCode -ne 200 ) {
-        throw "Failed to find parameter.ps1 file on git repo."
+    if ((Invoke-WebRequest ($scriptrootURI+"parameters.json")).StatusCode -ne 200 ) {
+        write-warning "Failed to find parameter.json file on git repo. trying parameter.ps1"
+        if ((Invoke-WebRequest ($scriptrootURI+"parameters.ps1")).StatusCode -ne 200 ) {
+            throw "Failed to find parameter.ps1 or parameter.json file on git repo."
+        } else {
+            try {$P = Invoke-Expression (Invoke-WebRequest ($scriptrootURI+"parameters.ps1")).content}
+            catch { 
+                throw "Failed to load parameter.ps1 file."
+            }
+        }
+    } else {
+        try {
+            $P = (Invoke-WebRequest ($scriptrootURI+"parameters.ps1")).content | ConvertFrom-Json 
+        }
+        catch {
+            throw "Failed to load parameter.json file."
+        }
     }
+   
 
-    try {$P = Invoke-Expression (Invoke-WebRequest ($scriptrootURI+"parameters.ps1")).content}
-    catch { 
-        throw "Failed to load parameter.ps1 file."
-    }
+    
 
 
 
