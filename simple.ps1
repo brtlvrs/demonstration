@@ -3,20 +3,16 @@
 
 .SYNOPSIS
 
-    Example code for running full script from an URI.
+    Example code for running powershell script without Begin,Process and end block
 
 .DESCRIPTION
 
-    Example code to run a powershell script with dynamic blocks Begin,Process and End.
     Loading parameters from a JSON file into an P object.
     By wrapping the code into the function main, we can use begin, process and end scriptblocks when calling with Invoke-Expression
 
-    The Process block contains the main code to execute.
-    The Begin and en blocks are mainly used for setting up the environment and closing it.
-
 .EXAMPLE
-Run the following cmdline in a powershell session.
-Invoke-Expression (Invoke-webrequest <URL>).content
+    Run the following cmdline in a powershell session.
+    Invoke-Expression (Invoke-webrequest <URL>).content
 
 
 .NOTES
@@ -25,7 +21,7 @@ Invoke-Expression (Invoke-webrequest <URL>).content
 
 #>
 
-    #=== Script parameters
+#=== Script parameters and initialisation
     #-- GIT repository parameters
     $scriptGitServer = "https://raw.githubusercontent.com/"
     $scriptGitRepository = "brtlvrs/demonstration/"
@@ -55,7 +51,7 @@ Invoke-Expression (Invoke-webrequest <URL>).content
         }
     }
 
-    #-- load functions
+#-- load functions
     function exit-script 
     {
         <#
@@ -117,10 +113,10 @@ Invoke-Expression (Invoke-webrequest <URL>).content
         #-- exit
         exit $exitcode
     }
-    
+
 #-- main code
 
-write-host "Hello $($P.name)"
-#-- Finish line
+    write-host "Hello $($P.name)"
 
-exit-script -exitcode 0
+#-- Finish line
+    exit-script -exitcode 0
