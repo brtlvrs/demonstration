@@ -27,7 +27,6 @@ function main {
 
     Begin{
         #=== Script parameters
-        $vSphereFQDN="vsphere.domain.local"
         #-- GIT repository parameters
         $scriptGitServer = "https://raw.githubusercontent.com/"
         $scriptGitRepository = "brtlvrs/demonstration/"
