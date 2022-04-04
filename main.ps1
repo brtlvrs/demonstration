@@ -33,11 +33,13 @@ Begin{
     #-- determine script location and name
     $scriptPath=(get-item (Split-Path -Path $MyInvocation.MyCommand.Definition)).FullName
     $scriptname=(Split-Path -Leaf $MyInvocation.mycommand.path).Split(".")[0]
+    #-- GIT repository parameters
     $scriptGitServer = "https://raw.githubusercontent.com/"
     $scriptGitRepository = "brtlvrs/demonstration/"
     $scriptBranch = "template/"
     $scriptrootURI = $scriptGitServer+$scriptGitRepository+$scriptBranch
 
+    #-- trying to load parameters, preferably json style
     if ((Invoke-WebRequest ($scriptrootURI+"parameters.json")).StatusCode -ne 200 ) {
         write-warning "Failed to find parameter.json file on git repo. trying parameter.ps1"
         if ((Invoke-WebRequest ($scriptrootURI+"parameters.ps1")).StatusCode -ne 200 ) {
@@ -50,18 +52,13 @@ Begin{
         }
     } else {
         try {
-            $P = (Invoke-WebRequest ($scriptrootURI+"parameters.ps1")).content | ConvertFrom-Json 
+            $P = (Invoke-WebRequest ($scriptrootURI+"parameters.json")).content | ConvertFrom-Json 
         }
         catch {
             throw "Failed to load parameter.json file."
         }
     }
    
-
-    
-
-
-
     #-- load functions
     function exit-script 
     {
