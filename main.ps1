@@ -11,6 +11,8 @@ function main {
         Loading parameters from a JSON file into an P object.
         By wrapping the code into the function main, we can use begin, process and end scriptblocks when calling with Invoke-Expression
 
+        The Process block contains the main code to execute.
+        The Begin and en blocks are mainly used for setting up the environment and closing it.
 
     .EXAMPLE
     Run the following cmdline in a powershell session.
