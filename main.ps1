@@ -3,18 +3,18 @@ function main {
 
     .SYNOPSIS
 
-        Synopsis text
+        Example code for running full script from an URI.
 
     .DESCRIPTION
 
-        Full description
-
-    .PARAMETER <parameter name>
-    -sc
+        Example code to run a powershell script with dynamic blocks Begin,Process and End.
+        Loading parameters from a JSON file into an P object.
+        By wrapping the code into the function main, we can use begin, process and end scriptblocks when calling with Invoke-Expression
 
 
     .EXAMPLE
-
+    Run the following cmdline in a powershell session.
+    Invoke-Expression (Invoke-webrequest <URL>).content
 
 
     .NOTES
@@ -34,11 +34,6 @@ function main {
 
         #==== No editing beyond this point !! ====
         $ts_start=get-date #-- Save current time for performance measurement
-
-        #-- determine script location and name
-    #    $scriptPath=(get-item (Split-Path -Path $MyInvocation.MyCommand.Definition)).FullName
-    #    $scriptname=(Split-Path -Leaf $MyInvocation.mycommand.path).Split(".")[0]
-
 
         #-- trying to load parameters into $P object, preferably json style
         if ((Invoke-WebRequest ($scriptrootURI+"parameters.json")).StatusCode -ne 200 ) {
@@ -134,4 +129,5 @@ function main {
     }
 
     }
+#-- run main function
 main
