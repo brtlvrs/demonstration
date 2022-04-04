@@ -36,8 +36,8 @@ function main {
         $ts_start=get-date #-- Save current time for performance measurement
 
         #-- determine script location and name
-        $scriptPath=(get-item (Split-Path -Path $MyInvocation.MyCommand.Definition)).FullName
-        $scriptname=(Split-Path -Leaf $MyInvocation.mycommand.path).Split(".")[0]
+    #    $scriptPath=(get-item (Split-Path -Path $MyInvocation.MyCommand.Definition)).FullName
+    #    $scriptname=(Split-Path -Leaf $MyInvocation.mycommand.path).Split(".")[0]
 
 
         #-- trying to load parameters into $P object, preferably json style
