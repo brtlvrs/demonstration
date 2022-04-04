@@ -2,7 +2,7 @@
 
 .SYNOPSIS
 
-    Exclude VMware Tools patches from dynamic patch baselines for VMware ESXi
+    Synopsis text
 
 .DESCRIPTION
 
@@ -25,7 +25,11 @@
 Begin{
     #=== Script parameters
     $vSphereFQDN="vsphere.domain.local"
-
+    #-- GIT repository parameters
+    $scriptGitServer = "https://raw.githubusercontent.com/"
+    $scriptGitRepository = "brtlvrs/demonstration/"
+    $scriptBranch = "template/"
+    $scriptrootURI = $scriptGitServer+$scriptGitRepository+$scriptBranch
 
     #==== No editing beyond this point !! ====
     $ts_start=get-date #-- Save current time for performance measurement
@@ -33,13 +37,9 @@ Begin{
     #-- determine script location and name
     $scriptPath=(get-item (Split-Path -Path $MyInvocation.MyCommand.Definition)).FullName
     $scriptname=(Split-Path -Leaf $MyInvocation.mycommand.path).Split(".")[0]
-    #-- GIT repository parameters
-    $scriptGitServer = "https://raw.githubusercontent.com/"
-    $scriptGitRepository = "brtlvrs/demonstration/"
-    $scriptBranch = "template/"
-    $scriptrootURI = $scriptGitServer+$scriptGitRepository+$scriptBranch
 
-    #-- trying to load parameters, preferably json style
+
+    #-- trying to load parameters into $P object, preferably json style
     if ((Invoke-WebRequest ($scriptrootURI+"parameters.json")).StatusCode -ne 200 ) {
         write-warning "Failed to find parameter.json file on git repo. trying parameter.ps1"
         if ((Invoke-WebRequest ($scriptrootURI+"parameters.ps1")).StatusCode -ne 200 ) {
