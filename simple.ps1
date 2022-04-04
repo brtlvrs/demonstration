@@ -116,7 +116,7 @@
 
 #-- main code
 
-    write-host "Hello $($P.name)"
+    write-host "Hello world, we love $($P.name)"
 
 #-- Finish line
     exit-script -exitcode 0
