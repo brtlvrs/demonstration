@@ -1,4 +1,5 @@
 {
     "name" : "kers",
+    "type": "fruit",
     "version" : "0.2"
 }
