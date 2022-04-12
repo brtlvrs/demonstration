@@ -41,7 +41,9 @@ function main {
         catch  {
             throw "Request failed for loading parameters.json" 
         }
+        # validate answer
         if ($webResult.StatusCode -match "^2\d{2}" ) {
+            # statuscode is 2.. so convert content into object $P
             $P = $webResult.content | ConvertFrom-Json 
         } else {
             throw ("Failed to load parameter.json from repository. Got statuscode "+ $webRequest.statusCode)
