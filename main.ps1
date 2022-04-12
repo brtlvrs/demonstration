@@ -37,17 +37,12 @@ function main {
         $ts_start=get-date #-- Save current time for performance measurement
 
         #-- trying to load parameters into $P object, preferably json style
-        try { $webResult= Invoke-WebRequest ($scriptrootURI+"parameters.json")}
-        catch {
-            throw "Request failed for loading parameters.json"
+        try { $webResult= Invoke-WebRequest -Uri ($scriptrootURI+"parameters.json") -Headers @{"Cache-Control"="no-cache"}  }
+        catch  {
+            throw "Request failed for loading parameters.json" 
         }
         if ($webResult.StatusCode -match "^2\d{2}" ) {
-            try {
-                $P = (Invoke-WebRequest ($scriptrootURI+"parameters.json")).content | ConvertFrom-Json 
-            }
-            catch {
-                throw "Failed to parse webrequest content into JSON"
-            }
+            $P = $webResult.content | ConvertFrom-Json 
         } else {
             throw ("Failed to load parameter.json from repository. Got statuscode "+ $webRequest.statusCode)
         }
