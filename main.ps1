@@ -30,7 +30,7 @@ function main {
         #-- GIT repository parameters for loading the parameters.json
         $scriptGitServer = "https://raw.githubusercontent.com/"
         $scriptGitRepository = "brtlvrs/demonstration/"
-        $scriptBranch = "template/"
+        $scriptBranch = "master/"
         $scriptrootURI = $scriptGitServer+$scriptGitRepository+$scriptBranch
 
         #==== No editing beyond this point !! ====
