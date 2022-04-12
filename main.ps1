@@ -27,7 +27,7 @@ function main {
 
     Begin{
         #=== Script parameters
-        #-- GIT repository parameters
+        #-- GIT repository parameters for loading the parameters.json
         $scriptGitServer = "https://raw.githubusercontent.com/"
         $scriptGitRepository = "brtlvrs/demonstration/"
         $scriptBranch = "template/"
@@ -37,23 +37,19 @@ function main {
         $ts_start=get-date #-- Save current time for performance measurement
 
         #-- trying to load parameters into $P object, preferably json style
-        if ((Invoke-WebRequest ($scriptrootURI+"parameters.json")).StatusCode -ne 200 ) {
-            write-warning "Failed to find parameter.json file on git repo. trying parameter.ps1"
-            if ((Invoke-WebRequest ($scriptrootURI+"parameters.ps1")).StatusCode -ne 200 ) {
-                throw "Failed to find parameter.ps1 or parameter.json file on git repo."
-            } else {
-                try {$P = Invoke-Expression (Invoke-WebRequest ($scriptrootURI+"parameters.ps1")).content}
-                catch { 
-                    throw "Failed to load parameter.ps1 file."
-                }
-            }
-        } else {
+        try { $webResult= Invoke-WebRequest ($scriptrootURI+"parameters.json")}
+        catch {
+            throw "Request failed for loading parameters.json"
+        }
+        if ($webResult.StatusCode -match "^2\d{2}" ) {
             try {
                 $P = (Invoke-WebRequest ($scriptrootURI+"parameters.json")).content | ConvertFrom-Json 
             }
             catch {
-                throw "Failed to load parameter.json file."
+                throw "Failed to parse webrequest content into JSON"
             }
+        } else {
+            throw "Failed to load parameter.json from repository. Got statuscode "+ $
         }
     
         #-- load functions
