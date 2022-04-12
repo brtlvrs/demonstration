@@ -49,7 +49,7 @@ function main {
                 throw "Failed to parse webrequest content into JSON"
             }
         } else {
-            throw "Failed to load parameter.json from repository. Got statuscode "+ $
+            throw ("Failed to load parameter.json from repository. Got statuscode "+ $webRequest.statusCode)
         }
     
         #-- load functions
