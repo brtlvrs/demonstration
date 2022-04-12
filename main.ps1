@@ -37,7 +37,7 @@ function main {
         $ts_start=get-date #-- Save current time for performance measurement
 
         #-- trying to load parameters into $P object, preferably json style
-        try { $webResult= Invoke-WebRequest -Uri ($scriptrootURI+"parameters.json") -Headers @{"Cache-Control"="no-cache"}  }
+        try { $webResult= Invoke-WebRequest -Uri ($scriptrootURI+"parameters.json") -Headers @{"Cache-Control"="no-store"}  }
         catch  {
             throw "Request failed for loading parameters.json" 
         }
